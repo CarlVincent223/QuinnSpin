@@ -1,0 +1,12 @@
+full_service::Regular Wash::Wash, dry & fold (min 4kg, max 7kg)::150.00::7::kg::Active
+full_service::Heavy Loads::Bedsheet, Blanket, Curtain, Seat Cover (max 6kg 48 mins, wash & dry)::170.00::6::kg::Active
+comforter::Queen size / Single / Double::(1 piece perload - 48mins)::180.00::1::pc::Active
+self_service::Regular Wash::Wash 38 mins (min 4kg, max 7kg)::60.00::7::kg::Active
+self_service::Premium Wash::Wash 48 mins (min 4kg, max 7kg)::80.00::7::kg::Active
+self_service::Normal Dry::Dry Medium Temperature (min 4kg, max 7kg)::40.00::7::kg::Active
+self_service::Heavy Dry::Dry High Temperature (min 4kg, max 7kg)::50.00::7::kg::Active
+addons::Fold::Addon Fold::30.00::1::none::Active
+addons::Plastic::Addon Plastic::5.00::1::none::Active
+addons::Detergent::Addon Detergent::15.00::1::none::Active
+addons::Fabric Conditioner::Addon Fabric Conditioner::10.00::1::none::Active
+addons::Addon Time::10 minutes dry::10.00::1::none::Active

@@ -1,0 +1,146 @@
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="view-port" content="width=device-width, initial-scale=1">
+    </head>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="static/css/all.min.css" rel="stylesheet"/>
+    <link href="static/css/style.css" rel="stylesheet"/>
+    <body>
+                <div class="modal modal-sheet position-absolute d-block bg-body-transparent p-4 py-md-5 fade d-none" tabindex="-1" role="dialog" id="modalUpdateBooking">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content rounded-4 shadow">
+                            <!--div class="modal-header p-5 pb-4 border-bottom-0 align-items-center">
+                                <h1 class="fw-bold mb-0 fs-2">Select a letter</h1>
+                            </div-->
+                            
+                            <div class="modal-body p-2 pt-0">
+                                <div class="p-2">Booking ID:</div>
+                                <div class="p-2">Client:</div>
+                                <div class="p-2">Address:</div>
+                                <div class="p-2">Services:</div>
+                                <select class="form-select pt-1" id="sel_booking_status">
+                                    <option value="pending">Pending</option>
+                                    <option value="accepted">Accepted</option>
+                                    <option value="pickup">Pickup</option>
+                                    <option value="ongoing">Ongoing</option>
+                                    <option value="delivery">Delivery</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                                <br/>
+                                <div class="d-flex justify-content-between">
+                                    <button class="w-50 mb-2 btn btn rounded-3 btn-success" onclick="update_booking()">SAVE</button>
+                                    &ensp;
+                                    <button class="w-50 mb-2 btn btn rounded-3 btn-danger" onclick="close_update_booking()">CANCEL</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <h3>Quinn's Laundry House</h3>
+        
+        
+
+        <div class="d-flex justify-content-between">
+        <!--div class="btn-group" style="width: 100px;">
+            <button type="button" class="btn btn-warning">All</button>
+            <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/">All</a></li>
+                <li><a class="dropdown-item" href="/pending">Pending</a></li>
+                <li><a class="dropdown-item" href="/accepted">Accepted</a></li>
+                <li><a class="dropdown-item" href="/pickup">Pickup</a></li>
+                <li><a class="dropdown-item" href="/ongoing">Ongoing</a></li>
+                <li><a class="dropdown-item" href="/delivery">Delivery</a></li>
+                <li><a class="dropdown-item" href="/completed">Completed</a></li>
+                <li><a class="dropdown-item" href="/cancelled">Cancelled</a></li>
+            </ul>
+        </div-->
+
+        <div class="dropdown mb-2">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                All
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/">All</a></li>
+                <li><a class="dropdown-item" href="/pending">Pending</a></li>
+                <li><a class="dropdown-item" href="/accepted">Accepted</a></li>
+                <li><a class="dropdown-item" href="/pickup">Pickup</a></li>
+                <li><a class="dropdown-item" href="/ongoing">Ongoing</a></li>
+                <li><a class="dropdown-item" href="/delivery">Delivery</a></li>
+                <li><a class="dropdown-item" href="/completed">Completed</a></li>
+                <li><a class="dropdown-item" href="/cancelled">Cancelled</a></li>
+            </ul>
+        </div>
+        
+        <div class="d-flex" role="search">
+            <input class="form-control mb-2" type="search" placeholder="Search" aria-label="Search">
+        </div>
+        </div>
+        
+        <table class="table table-bordered">
+            <thead>
+                <th>Booking ID</th>
+                <th>Client</th>
+                <th>Contact</th>
+                <th>Date Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{item['id']}}</td>
+                    <td>{{item['client']}}</td>
+                    <td>{{item['contact']}}</td>
+                    <td>{{item['timestamp']}}</td>
+                    <td>{{item['status']}}</td>
+                    <td class="btn-action">
+                        {% if item['status'] == 'Pending' %}
+                            <button class="btn btn-primary" onclick="accept_booking(this)" bid="{{item[0]}}">Accept</button>
+                            <button class="btn btn-danger">Decline</button>
+                        {% else  %}
+                            <button class="btn btn-primary">View</button>
+                            <button class="btn btn-primary" onclick="open_booking(this)" bid="{{item[0]}}">Update</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/jquery-3.6.3.min.js"></script>
+    <script src="static/js/scripts.js"></script>
+    <script>
+        let booking_id;
+        window.onload = function(){
+        }
+
+        function open_booking(obj){
+            booking_id = $(obj).attr("bid");
+            $("#modalUpdateBooking").removeClass('fade d-none');
+        }
+
+        function update_booking(){
+            update_booking_status(booking_id, $("#sel_booking_status").val())
+        }
+
+        function accept_booking(obj){
+            booking_id = $(obj).attr("bid");
+            update_booking_status(booking_id, "accepted")
+        }
+
+        function close_update_booking(){
+            $("#modalUpdateBooking").addClass('fade d-none');
+        }
+
+
+    </script>
+</html>
+{% endblock %}
