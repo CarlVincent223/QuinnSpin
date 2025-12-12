@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" 
+      content="text/html; charset=utf-8">
+<title>Clients Billing Statement</title>
+<style>    	
+	body {
+		margin:0px 10px 0px 10px;
+		font-family: Verdana, Geneva, Tahoma, sans-serif;
+	}
+
+	.header-table {
+		td {
+			padding: 0px;
+			border-collapse: collapse;
+  			border: 0px;
+		}
+		border: 0px;
+	}
+
+	table, td, th {
+		padding: 5px;
+  		border: 1px solid #676666;
+	}
+	
+	.table {
+  		border-collapse: collapse;
+	}
+
+	.qr {
+		width: 150px;
+		height: 150px;
+	}
+
+	.dotted-hr {
+        border: none;
+        border-top: 2px dashed #333;
+        width: 100%;
+        margin: 0px;
+    }
+
+	.md_header {
+		height:120px;
+	}
+
+	.md_addr {
+		height:50px;
+	}
+
+	.sm_area {
+		height:35px;
+	}
+
+	.md_area {
+		height:150px;
+	}
+
+	.lg_area {
+		height:240px;
+	}
+
+	.check_box {
+		font-size: 30px;
+		margin-right: 10px;
+	}
+
+	.form_val {
+		padding-left: 5px;
+		font-weight:bold;
+	}
+
+</style>
+<script src="billing_data.js"></script>
+</head> 
+<body>
+	<table class="header-table" style="width: 100%;">
+		<col width="80%">
+		<col width="20%">
+		<tr class="md_header">
+			<td style="padding-right: 20px;">
+				<span><h3><label id="shop_name">Quinn's Laundry House</label></h3></span>
+				<span>
+					Address: <label id="shop_address">Zone 6, Bagong Sirang San Felipe, Naga City / beside Blue Spring Water Refilling Station</label>
+					<br/>
+					Owner: <label id="shop_owner">Marian R. Francisco</label>
+					<br/>
+					TIN: <label id="shop_tin">487-529-480-00000</label>
+					<br/>
+					Mobile No: <label id="shop_contact">+639761082555</label>
+					<br/>
+					FB Page: <label id="shop_fb">https://www.facebook.com/quinns.laundryhouse</label>
+				</span>
+			</td>
+			<td style="text-align: right;"><img class="qr" src="../images/quinns_logo.png"/></td>
+		</tr>
+	</table>
+	<table class="table" style="width: 100%;">
+		<col width="50%">
+		<col width="50%">
+		<tr class="sm_area">
+			<td class="">Booking ID:<label class="form_val" id="h_booking_id"></label></td>
+			<td>Date:<label class="form_val" id="h_date"></label></td>
+		</tr>
+		<tr class="sm_area">
+			<td>Client:<label class="form_val" id="h_client"></label></td>
+			<td>Contact:<label class="form_val" id="h_contact"></label></td>
+		</tr>
+		<tr class="md_addr" style="vertical-align: top;">
+			<td colspan="2">Address:<label class="form_val" id="h_address"></label></td>
+		</tr>
+		<tr class="lg_area">
+			<td colspan="2" style="vertical-align: top;">
+				<div id="services_acquired"></div>
+				<br/>
+				<div id="addons_acquired"></div>
+				<br/>
+				<div id="c_logistics"></div>
+			</td>
+		</tr>
+		<tr class="sm_area">
+			<td>Total Basket:<label class="form_val" id="h_net_weight"></label></td>
+			<td>Total Bill:<label class="form_val" id="h_total_bill"></label></td>
+		</tr>
+	</table>
+	<br/>
+	<hr class="dotted-hr">
+	<br/>
+	<table class="table" style="width: 100%;">
+		<col width="25%">
+		<col width="25%">
+		<col width="25%">
+		<col width="25%">
+		<tr class="sm_area">
+			<td colspan="2">Booking ID:<label class="form_val" id="b_booking_id"></label></td>
+			<td colspan="2">Date:<label class="form_val" id="b_date"></label></td>
+		</tr>
+		<tr class="sm_area">
+			<td colspan="2">Client:<label class="form_val" id="b_client"></label></td>
+			<td colspan="2">Receiver:</td>
+		</tr>
+		<tr class="sm_area">
+			<td><span class="check_box">□</span>GCash</td>
+			<td><span class="check_box">□</span>Pay Maya</td>
+			<td><span class="check_box">□</span>Cash</td>
+			<td><span class="check_box">□</span>Points</td>
+		</tr>
+		<tr class="sm_area">
+			<td colspan="2">Amount:</td>
+			<td colspan="2">Ref No:</td>
+		</tr>
+		<tr class="md_area" style="text-align: center;">
+			<td>
+				<img class="qr" src="../images/gcash_qr.png"/>
+				<span>GCash</span>
+			</td>
+			<td>
+				<img class="qr" src="../images/maya_qr.png"/>
+				<span>Maya</span>
+			</td>
+			<td colspan="2" style="vertical-align: bottom;">
+				<span>__________________________</span>
+				<br><br>
+				<span><b>Signature</b></span>
+			</td>
+		</tr>
+	</table>
+    <script>
+		window.onload = function(){
+			let data = get_json_data();
+			let data2 = get_json_data2();
+			let data3 = get_json_data3();
+			let str = "";
+			let net_weight = "";
+			let sum_amt = 0
+     
+			document.getElementById("shop_name").innerHTML = data['shop_name'];
+			document.getElementById("shop_owner").innerHTML = data['owner'];
+			document.getElementById("shop_address").innerHTML = data['shop_address'];
+			document.getElementById("shop_tin").innerHTML = data['tin'];
+			document.getElementById("shop_contact").innerHTML = data['shop_contact'];
+			document.getElementById("shop_fb").innerHTML = data['fb_page'];
+
+			document.getElementById("h_booking_id").innerHTML = data['booking_id'];
+			document.getElementById("h_date").innerHTML = data['date'];
+			document.getElementById("h_client").innerHTML = data['client'];
+			document.getElementById("h_contact").innerHTML = data['contact'];
+			document.getElementById("h_address").innerHTML = data['address'];
+
+			document.getElementById("b_booking_id").innerHTML = data['booking_id'];
+			document.getElementById("b_date").innerHTML = data['date'];
+			document.getElementById("b_client").innerHTML = data['client'];
+
+			for(i=0; i<data2.length; i++){
+				str += data2[i]['name']+".... P "+data2[i]['price']+"/"+data2[i]['qty']+data2[i]['unit']+"&emsp;(x"+data2[i]['net_qty']+")<br/>";
+				net_weight = data2[i]['net_qty']+data2[i]['net_unit'];
+				sum_amt += Number(data2[i]['price'])*Number(data2[i]['net_qty']);
+			}
+			if(str != ""){
+				str = "<b>Services:</b><br/>"+str;
+				document.getElementById("services_acquired").innerHTML = str;
+			}
+
+			if(Number(data['logistics']) > 0){
+				str = "<b>Logistics Fee:</b>";
+				str += "<div>P "+data['logistics']+"&emsp;(x"+data['quantity']+")</div>";
+				document.getElementById("c_logistics").innerHTML = str;
+				sum_amt += Number(data['logistics'])*Number(data['quantity']);
+			}
+
+			str = "";
+			for(i=0; i<data3.length; i++){
+				str += data3[i]['name']+".... P "+data3[i]['price']+"&emsp;(x"+data3[i]['net_qty']+")<br/>";
+				sum_amt += Number(data3[i]['price'])*Number(data3[i]['net_qty']);
+			}
+			
+			if(str != ""){
+				str = "<b>Addons:</b><br/>"+str;
+				document.getElementById("addons_acquired").innerHTML = str;
+			}
+
+			document.getElementById("h_net_weight").innerHTML = data['quantity'];
+			document.getElementById("h_total_bill").innerHTML = "P "+sum_amt.toFixed(2);
+			
+
+			window.print();
+		}
+    </script> 
+</body>
+</html>
